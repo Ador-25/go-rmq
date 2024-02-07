@@ -1,0 +1,19 @@
+# Go related files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Compiled Object files, Static and Dynamic libraries
+*.o
+*.a
+*.lib
+
+# Folders
+_obj
+_test
+main
+
+# Application settings file
+applicationsettings.json
