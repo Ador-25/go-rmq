@@ -1,10 +1,11 @@
-package main
+package rabbitMQ
 
 import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
+	"rmq/utils"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
@@ -43,17 +44,17 @@ func GetConnectionString() string {
 func init() {
 	data, err := ioutil.ReadFile("applicationsettings.json")
 	if err != nil {
-		log.Fatalf("Error reading config file: %v", err)
+		log.Fatalf("Error reading config file = %v", err)
 	}
 	err = json.Unmarshal(data, &Configuration)
 	if err != nil {
-		log.Fatalf("Error parsing config JSON: %v", err)
+		log.Fatalf("Error parsing config JSON = %v", err)
 	}
 	fmt.Println("Username:", Configuration.Creds)
 	fmt.Println("RMQ:", Configuration.RMQ)
 	amqpURI := GetConnectionString()
 	conn, err := amqp.Dial(amqpURI)
-	FailOnError(err, "Failed to connect to RabbitMQ")
+	utils.FailOnError(err, "Failed to connect to RabbitMQ")
 	Ch, err = conn.Channel()
-	FailOnError(err, "Failed to open a channel")
+	utils.FailOnError(err, "Failed to open a channel")
 }

@@ -2,6 +2,7 @@ package rabbitMQ
 
 import (
 	"log"
+	"rmq/utils"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
@@ -9,11 +10,11 @@ import (
 func Publish(message []byte, routingKey string) {
 	exchange := Configuration.RMQ.Exchange
 	conn, err := amqp.Dial(GetConnectionString())
-	FailOnError(err, "Failed to connect to RabbitMQ")
+	utils.FailOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
 	ch, err := conn.Channel()
-	FailOnError(err, "Failed to open a channel")
+	utils.FailOnError(err, "Failed to open a channel")
 	defer ch.Close()
 
 	err = ch.Publish(
@@ -25,6 +26,6 @@ func Publish(message []byte, routingKey string) {
 			ContentType: "text/plain",
 			Body:        message,
 		})
-	FailOnError(err, "Failed to publish a message")
+	utils.FailOnError(err, "Failed to publish a message")
 	log.Printf(" [x] Sent %s", message)
 }

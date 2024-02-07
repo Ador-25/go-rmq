@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SSE Example</title>
+    <style>
+        .container {
+            display: flex;
+            align-items: first baseline;
+            justify-content: center;
+        }
+        .input-container {
+            width: 200px; 
+            padding-right: 10px;
+        }
+        .data-container {
+            flex: 1;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="input-container">
+            <input type="text" id="input-field" placeholder="Enter your input">
+            <button>Publish</button>
+        </div>
+        <div class="data-container" id="sse-data"></div>
+    </div>
+
+    <script>
+        const eventSource = new EventSource('http://localhost:8080/events');
+        eventSource.onmessage = function(event) {
+            const dataElement = document.getElementById('sse-data');
+            dataElement.innerHTML += event.data + '<br>';
+        };
+    </script>
+</body>
+</html>
